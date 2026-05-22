@@ -1,0 +1,72 @@
+version: "3.9"
+
+services:
+  # ─── ASKAI Web App ───────────────────────────────────────────
+  web:
+    build:
+      context: ../../apps/web
+      dockerfile: ../../infra/docker/Dockerfile.web
+    ports:
+      - "3000:3000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=3000
+      - DATABASE_URL=file:/data/askai.db
+      - SESSION_SECRET=${SESSION_SECRET:-change-this-secret-min-32-chars-long}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama:11434}
+      - AI_SERVICE_URL=http://ai-service:8000
+      - KOLIBRI_BASE_URL=${KOLIBRI_BASE_URL:-http://localhost:8080}
+      - NEXT_PUBLIC_APP_NAME=ASKAI
+      - NEXT_PUBLIC_DEVICE_NAME=${DEVICE_NAME:-ASKAI Hub}
+      - DEFAULT_CHAT_MODEL=${DEFAULT_CHAT_MODEL:-gemma3:1b}
+      - DEFAULT_EMBEDDING_MODEL=${DEFAULT_EMBEDDING_MODEL:-nomic-embed-text}
+    volumes:
+      - askai_data:/data
+      - askai_uploads:/app/uploads
+    depends_on:
+      - ai-service
+    restart: unless-stopped
+    networks:
+      - askai
+
+  # ─── ASKAI AI Service ─────────────────────────────────────────
+  ai-service:
+    build:
+      context: ../../apps/ai-service
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama:11434}
+      - DEFAULT_CHAT_MODEL=${DEFAULT_CHAT_MODEL:-gemma3:1b}
+      - DEFAULT_EMBEDDING_MODEL=${DEFAULT_EMBEDDING_MODEL:-nomic-embed-text}
+      - UPLOAD_DIR=/uploads
+      - CHROMA_DIR=/chroma_db
+    volumes:
+      - askai_uploads:/uploads
+      - askai_chroma:/chroma_db
+    restart: unless-stopped
+    networks:
+      - askai
+
+  # ─── Ollama (optional — can use host Ollama instead) ──────────
+  # Uncomment to run Ollama in Docker (requires GPU passthrough for performance)
+  # ollama:
+  #   image: ollama/ollama:latest
+  #   ports:
+  #     - "11434:11434"
+  #   volumes:
+  #     - ollama_models:/root/.ollama
+  #   restart: unless-stopped
+  #   networks:
+  #     - askai
+
+volumes:
+  askai_data:
+  askai_uploads:
+  askai_chroma:
+  # ollama_models:
+
+networks:
+  askai:
+    driver: bridge

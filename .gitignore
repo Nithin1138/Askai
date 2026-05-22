@@ -1,0 +1,20 @@
+.DS_Store
+node_modules/
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Build outputs
+.next/
+
+# Local vector DB
+apps/ai-service/chroma_db/
+
+# Local app DB files
+apps/web/*.db
+apps/web/*.db-*

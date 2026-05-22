@@ -1,0 +1,20 @@
+{
+  "name": "askai",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Offline-first local AI and knowledge infrastructure",
+  "scripts": {
+    "dev": "cd apps/web && pnpm dev",
+    "dev:ai": "cd apps/ai-service && python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000",
+    "dev:all": "concurrently \"pnpm dev\" \"pnpm dev:ai\"",
+    "build": "cd apps/web && pnpm build",
+    "lint": "cd apps/web && pnpm lint",
+    "type-check": "cd apps/web && pnpm type-check",
+    "db:generate": "cd apps/web && pnpm db:generate",
+    "db:migrate": "cd apps/web && pnpm db:migrate",
+    "db:seed": "cd apps/web && pnpm db:seed"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}

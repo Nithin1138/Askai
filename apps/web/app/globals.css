@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Light mode */
+    --background: 0 0% 98%;
+    --foreground: 220 13% 8%;
+    --surface: 0 0% 100%;
+    --surface-hover: 220 10% 96%;
+    --border: 220 10% 90%;
+    --border-strong: 220 10% 80%;
+    --muted: 220 8% 96%;
+    --muted-foreground: 220 10% 45%;
+
+    /* Accent: calm indigo-blue */
+    --accent: 220 90% 56%;
+    --accent-hover: 220 90% 50%;
+    --accent-foreground: 0 0% 100%;
+    --accent-subtle: 220 90% 97%;
+    --accent-subtle-foreground: 220 90% 40%;
+
+    /* Status */
+    --success: 145 65% 42%;
+    --success-subtle: 145 65% 96%;
+    --warning: 38 95% 48%;
+    --warning-subtle: 38 95% 96%;
+    --error: 0 72% 52%;
+    --error-subtle: 0 72% 97%;
+
+    /* Components */
+    --card: 0 0% 100%;
+    --card-foreground: 220 13% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 13% 8%;
+    --input: 220 10% 90%;
+    --ring: 220 90% 56%;
+
+    /* Sidebar */
+    --sidebar: 0 0% 100%;
+    --sidebar-border: 220 10% 90%;
+    --sidebar-item-hover: 220 10% 96%;
+    --sidebar-item-active: 220 90% 97%;
+    --sidebar-item-active-foreground: 220 90% 45%;
+
+    /* Radius */
+    --radius: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+  }
+
+  .dark {
+    /* Dark mode — warm charcoal, not pure black */
+    --background: 220 13% 6%;
+    --foreground: 220 10% 92%;
+    --surface: 220 10% 9%;
+    --surface-hover: 220 10% 12%;
+    --border: 220 8% 16%;
+    --border-strong: 220 8% 24%;
+    --muted: 220 10% 11%;
+    --muted-foreground: 220 8% 55%;
+
+    /* Accent */
+    --accent: 220 85% 62%;
+    --accent-hover: 220 85% 68%;
+    --accent-foreground: 0 0% 100%;
+    --accent-subtle: 220 50% 15%;
+    --accent-subtle-foreground: 220 85% 75%;
+
+    /* Status */
+    --success: 145 60% 50%;
+    --success-subtle: 145 40% 10%;
+    --warning: 38 90% 58%;
+    --warning-subtle: 38 60% 10%;
+    --error: 0 70% 60%;
+    --error-subtle: 0 50% 10%;
+
+    /* Components */
+    --card: 220 10% 9%;
+    --card-foreground: 220 10% 92%;
+    --popover: 220 10% 11%;
+    --popover-foreground: 220 10% 92%;
+    --input: 220 8% 16%;
+    --ring: 220 85% 62%;
+
+    /* Sidebar */
+    --sidebar: 220 13% 7%;
+    --sidebar-border: 220 8% 14%;
+    --sidebar-item-hover: 220 8% 12%;
+    --sidebar-item-active: 220 50% 14%;
+    --sidebar-item-active-foreground: 220 85% 70%;
+  }
+
+  * {
+    box-sizing: border-box;
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: 'Inter', system-ui, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  code, pre, kbd, samp {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border-strong));
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
+  }
+
+  /* Focus styles */
+  :focus-visible {
+    outline: 2px solid hsl(var(--accent));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Selection */
+  ::selection {
+    background: hsl(var(--accent) / 0.2);
+    color: hsl(var(--foreground));
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .glass {
+    background: hsl(var(--surface) / 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border));
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(220 70% 75%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Subtle glow for accent elements */
+  .accent-glow {
+    box-shadow: 0 0 0 1px hsl(var(--accent) / 0.3), 0 4px 16px hsl(var(--accent) / 0.12);
+  }
+}
